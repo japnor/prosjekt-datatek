@@ -30,7 +30,7 @@ void setup() {
   delay(2000);
   display.clearDisplay();
 
-  display.setTextSize(1);
+  display.setTextSize(2);
   display.setTextColor(WHITE);
   display.setCursor(0, 10);
 }
@@ -55,17 +55,19 @@ void loop() {
 
   duration = pulseIn(echo, HIGH);
 
-  delay(1000);
+  delay(100);
 
   distance = duration *  SOUND_SPEED/2;
 
   if (distance <= 5){
     startMillis = millis();
-    startState != startState;
+    startState = !startState;
     Serial.println("Car has passed");
+    delay(500);
     }
     
   if (startState){
+    display.clearDisplay();
     currentMillis = millis();
     elapsedMillis = (currentMillis - startMillis);
 
@@ -73,6 +75,10 @@ void loop() {
     Serial.print(elapsedMillis);
     Serial.println("");
 
+    display.setCursor(0, 10);
+    display.println("Lap time:");
+    display.print(elapsedMillis/1000.0);
+    display.display();
     }
-  delay(500);
+  delay(100);
 }
