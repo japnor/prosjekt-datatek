@@ -40,6 +40,7 @@ unsigned long currentMillis;
 unsigned long elapsedMillis;
 
 bool startState = LOW;
+bool timeStarted = false;
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -59,11 +60,15 @@ void loop() {
 
   distance = duration *  SOUND_SPEED/2;
 
-  if (distance <= 5){
-    startMillis = millis();
-    startState = !startState;
-    Serial.println("Car has passed");
-    delay(500);
+  if(distance <= 5 && !timeStarted) {
+        startMillis = millis();
+        timeStarted = true;
+        startState = true;
+    }
+    
+    if(distance > 5) {
+        timeStarted = false;
+        startState = false;
     }
     
   if (startState){
@@ -79,6 +84,15 @@ void loop() {
     display.println("Lap time:");
     display.print(elapsedMillis/1000.0);
     display.display();
+    if (elapsedMillis <= x){
+      premiePenger = 1000;
+      }
+    else if (elapsedMillis > x && elapsedMillis <= y){
+      premiePenger = 500;
+      }
+    else{
+      premiePenger = 0;
+      }
     }
   delay(100);
 }
